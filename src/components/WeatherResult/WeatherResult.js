@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 const WeatherResult = (props) => (
   <div className="container">
@@ -9,10 +9,10 @@ const WeatherResult = (props) => (
   </div>
 );
 
-WeatherResult.PropTypes = {
-  weather: PropTypes.shape({
-    weather: PropTypes.array.isRequired,
-  }),
-};
+// WeatherResult.propTypes = {
+//   weather: PropTypes.shape({
+//     weather: PropTypes.array.isRequired,
+//   }),
+// };
 
 export default WeatherResult;
