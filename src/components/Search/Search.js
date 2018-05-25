@@ -14,7 +14,6 @@ class Search extends Component {
   weatherRef = React.createRef();
 
   getWeather = (e) => {
-    
     //Data From text Input
     const INPUT_VALUE = this.weatherRef.current.value;
 
@@ -22,20 +21,19 @@ class Search extends Component {
       fetch(`${URI}${INPUT_VALUE}&APPID=${API_KEY}`)
         .then((res) => res.json())
         .then((weather) => {
-          if(weather.cod === 200) {
-            this.setState({ 
-              weatherInfo: weather, 
+          if (weather.cod === 200) {
+            this.setState({
+              weatherInfo: weather,
               notFound: false,
-              loading: false 
+              loading: false,
             });
-          };
-          if(weather.cod === "404") {
-            this.setState({ 
+          }
+          if (weather.cod === '404') {
+            this.setState({
               notFound: true,
-              loading: false 
+              loading: false,
             });
-          };
-          //console.log(weather.cod)
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -58,8 +56,14 @@ class Search extends Component {
             autoFocus={true}
           />
         </form>
-        
-        {loading ? <Loader /> : notFound ? <h2>Not found</h2> : <WeatherResult weather={weatherInfo} />}
+
+        {loading ? (
+          <Loader />
+        ) : notFound ? (
+          <h2>Not found</h2>
+        ) : (
+          <WeatherResult weather={weatherInfo} />
+        )}
       </Fragment>
     );
   }
