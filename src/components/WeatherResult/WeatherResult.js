@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 // import PropTypes from 'prop-types';
 
-const WeatherResult = (props) => (
+const WeatherResult = ({weather}) => (
   <div className="container">
-    <h1>Results</h1>
-    <p>{props.weather.name}</p>
-    {console.log(props)}
+    {(() => {
+              if (weather.length !== 0) {
+                return (
+                  <Fragment>
+                    <h1>Results</h1>
+                    <p>{weather.name}</p>
+                    {console.log(weather.weather)}
+                    {weather.weather.map(i => i.description)}
+                  </Fragment>
+                );
+              }
+    })()}
   </div>
+  
 );
 
 // WeatherResult.propTypes = {
