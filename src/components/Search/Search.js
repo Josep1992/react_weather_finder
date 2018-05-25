@@ -2,31 +2,43 @@ import React, { Component, Fragment } from 'react';
 import WeatherResult from '../WeatherResult/WeatherResult';
 import Loader from '../Loader/Loader';
 import './style.css';
-import { config } from '../../config';
+import { API_KEY, URI } from '../../config';
 
 class Search extends Component {
   state = {
     loading: false,
+    notFound: false,
     weatherInfo: [],
   };
 
   weatherRef = React.createRef();
 
   getWeather = (e) => {
-    //EndPoint
-    const URI = 'http://api.openweathermap.org/data/2.5/weather?q=';
-
+    
     //Data From text Input
     const INPUT_VALUE = this.weatherRef.current.value;
 
     this.setState({ loading: true }, () =>
-      fetch(`${URI}${INPUT_VALUE}&APPID=${config.API_KEY}`)
+      fetch(`${URI}${INPUT_VALUE}&APPID=${API_KEY}`)
         .then((res) => res.json())
-        .then((weather) =>
-          this.setState({ weatherInfo: weather, loading: false }),
-        )
+        .then((weather) => {
+          if(weather.cod === 200) {
+            this.setState({ 
+              weatherInfo: weather, 
+              notFound: false,
+              loading: false 
+            });
+          };
+          if(weather.cod === "404") {
+            this.setState({ 
+              notFound: true,
+              loading: false 
+            });
+          };
+          //console.log(weather.cod)
+        })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         }),
     );
     e.target.reset();
@@ -34,7 +46,7 @@ class Search extends Component {
   };
 
   render() {
-    const { weatherInfo, loading } = this.state;
+    const { weatherInfo, loading, notFound } = this.state;
 
     return (
       <Fragment>
@@ -46,7 +58,8 @@ class Search extends Component {
             autoFocus={true}
           />
         </form>
-        {loading ? <Loader /> : <WeatherResult weather={weatherInfo} />}
+        
+        {loading ? <Loader /> : notFound ? <h2>Not found</h2> : <WeatherResult weather={weatherInfo} />}
       </Fragment>
     );
   }
