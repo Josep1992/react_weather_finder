@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 const WeatherResult = ({ weather }) => (
   <div className="container">
-    {console.log(weather)}
     {weather.length !== 0 ? (
       <Fragment>
         <Title>Results</Title>
